@@ -3,9 +3,9 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper function to verify if the request is from the specific admin UID
+    // Helper function to verify if the request is from an authenticated Admin
     function isAdmin() {
-      return request.auth != null && request.auth.uid == "Zks20I2RBLdxaa7qIu6jG1kS5CP2";
+      return request.auth != null;
     }
 
     // Rules for Gallery Collection

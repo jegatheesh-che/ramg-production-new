@@ -364,12 +364,24 @@ if (reviewForm) {
         
         if (uploadRes.ok) {
           avatarUrl = uploadData.secure_url;
+        } else {
+          throw new Error(uploadData.error?.message || "Failed to upload client avatar to Cloudinary.");
         }
       }
 
       if (isEdit) {
-        const updateData = { name, subtitle, stars, category, text, badge, updatedAt: serverTimestamp() };
-        if (avatarUrl) updateData.avatarUrl = avatarUrl;
+        const updateData = {
+          name,
+          subtitle,
+          stars,
+          category,
+          text,
+          badge,
+          updatedAt: serverTimestamp()
+        };
+        if (avatarUrl) {
+          updateData.avatarUrl = avatarUrl;
+        }
         await updateDoc(doc(db, "reviews", inputId.value), updateData);
       } else {
         const maxOrder = currentReviews.reduce((max, item) => Math.max(max, item.order || 0), 0);
