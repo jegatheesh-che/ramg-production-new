@@ -791,68 +791,67 @@ if (document.readyState === 'loading') {
 // CINEMA SHOWCASE (YOUTUBE INTERACTIVE PLAYER)
 // ===============================================
 (function initCinemaShowcase() {
-  const stage = document.getElementById('cinemaStage');
-  if (!stage) return;
+  const cards = document.querySelectorAll('.simple-video-card');
+  if (!cards.length) return;
 
-  const playBtn = stage.querySelector('.home-cinema__play-btn');
-  const cover = document.getElementById('cinemaCover');
-  const mainThumb = document.getElementById('cinemaMainThumb');
-  const mainTitle = document.getElementById('cinemaMainTitle');
-  const playerDiv = document.getElementById('cinemaPlayerDiv');
-  const cards = document.querySelectorAll('.home-cinema__card');
-
-  let currentYoutubeId = stage.getAttribute('data-youtube-id') || '61h_QIuvs50';
-
-  function playCurrentVideo() {
-    if (cover) {
-      cover.classList.add('is-hidden');
-      setTimeout(() => { cover.style.display = 'none'; }, 450);
-    }
-    stage.classList.add('is-initialized', 'is-playing');
-
-    if (playerDiv) {
-      playerDiv.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${currentYoutubeId}?autoplay=1&mute=0&enablejsapi=1&rel=0&playsinline=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>`;
-    }
-    if (playBtn) playBtn.style.display = 'none';
-  }
-
-  if (playBtn) playBtn.addEventListener('click', (e) => { e.stopPropagation(); playCurrentVideo(); });
-  if (cover) cover.addEventListener('click', playCurrentVideo);
-
-  // Playlist Card Selection
+  // Video click to play logic
   cards.forEach(card => {
     card.addEventListener('click', () => {
+      if (card.classList.contains('is-playing')) return;
       const yid = card.getAttribute('data-youtube-id');
-      const title = card.getAttribute('data-title');
-      const thumb = card.getAttribute('data-thumb');
-
-      // Update active state on cards
-      cards.forEach(c => {
-        c.classList.remove('is-active');
-        const badge = c.querySelector('.home-cinema__card-badge');
-        if (badge) badge.textContent = 'SELECT FILM';
-      });
-
-      card.classList.add('is-active');
-      const currentBadge = card.querySelector('.home-cinema__card-badge');
-      if (currentBadge) currentBadge.textContent = 'NOW PLAYING';
-
-      // Update stage video
-      currentYoutubeId = yid;
-      if (mainTitle) mainTitle.textContent = title;
-      if (mainThumb) mainThumb.src = thumb;
-
-      // Reset cover view & player iframe
-      if (cover) {
-        cover.style.display = 'block';
-        cover.classList.remove('is-hidden');
+      const mediaWrap = card.querySelector('.home-cinema__card-media');
+      
+      if (yid && mediaWrap) {
+        card.classList.add('is-playing');
+        mediaWrap.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${yid}?autoplay=1&mute=0&enablejsapi=1&rel=0&playsinline=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>`;
       }
-      if (playBtn) playBtn.style.display = 'flex';
-      if (playerDiv) playerDiv.innerHTML = '';
-      stage.classList.remove('is-initialized', 'is-playing');
-
-      // Auto play on card click for seamless UX
-      playCurrentVideo();
     });
   });
+
+  // Carousel Navigation and Drag to Scroll
+  const carousel = document.getElementById('cinemaCarousel');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+
+  if (carousel && prevBtn && nextBtn) {
+    // Arrow clicks
+    prevBtn.addEventListener('click', () => {
+      const scrollAmount = cards[0].offsetWidth + 20;
+      carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', () => {
+      const scrollAmount = cards[0].offsetWidth + 20;
+      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    // Drag to scroll
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    carousel.addEventListener('mousedown', (e) => {
+      isDown = true;
+      carousel.style.cursor = 'grabbing';
+      carousel.style.scrollBehavior = 'auto'; // Disable smooth snap during drag
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    });
+    carousel.addEventListener('mouseleave', () => {
+      isDown = false;
+      carousel.style.cursor = '';
+      carousel.style.scrollBehavior = 'smooth';
+    });
+    carousel.addEventListener('mouseup', () => {
+      isDown = false;
+      carousel.style.cursor = '';
+      carousel.style.scrollBehavior = 'smooth';
+    });
+    carousel.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed multiplier
+      carousel.scrollLeft = scrollLeft - walk;
+    });
+  }
 })();
