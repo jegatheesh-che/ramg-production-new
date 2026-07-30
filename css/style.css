@@ -2506,23 +2506,33 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
 .filter-btn {
   font-family: var(--font-sans);
   font-size: 0.72rem;
-  letter-spacing: 3px;
+  font-weight: 500;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--clr-muted);
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid var(--clr-border);
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 10px 24px;
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.35s ease;
+  backdrop-filter: blur(8px);
 }
 
-.filter-btn:hover, .filter-btn.active {
+.filter-btn:hover {
   color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  color: #000000;
+  font-weight: 600;
   background: var(--clr-gold);
   border-color: var(--clr-gold);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(149, 117, 49, 0.25);
+  box-shadow: 0 6px 20px rgba(149, 117, 49, 0.35);
 }
 
 .gallery-masonry-wrapper {
