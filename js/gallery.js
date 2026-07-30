@@ -88,11 +88,18 @@ function createGalleryCardDOM(item) {
   if (item.mediaType === "video") {
     const cleanYtId = extractYoutubeId(item.youtubeId);
     card.setAttribute("data-youtube-id", cleanYtId);
-    const thumbnailUrl = `https://img.youtube.com/vi/${cleanYtId}/maxresdefault.jpg`;
-    const fallbackThumb = `https://img.youtube.com/vi/${cleanYtId}/hqdefault.jpg`;
     
+    // Check if admin uploaded a custom thumbnail image for the video
+    const customThumb = item.cloudinaryUrl || item.imageUrl || "";
+    const primaryThumb = customThumb || `https://img.youtube.com/vi/${cleanYtId}/maxresdefault.jpg`;
+    const hqThumb = `https://img.youtube.com/vi/${cleanYtId}/hqdefault.jpg`;
+    const mqThumb = `https://img.youtube.com/vi/${cleanYtId}/mqdefault.jpg`;
+    const brandFallback = `assets/images/ramg-prods.png`;
+
+    const onerrorAttr = `if(!this.dataset.failStep){this.dataset.failStep=1;this.src='${hqThumb}';}else if(this.dataset.failStep=='1'){this.dataset.failStep=2;this.src='${mqThumb}';}else{this.src='${brandFallback}';}`;
+
     card.innerHTML = `
-      <img src="${thumbnailUrl}" alt="${item.title || 'Video'}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackThumb}';" />
+      <img src="${primaryThumb}" alt="${item.title || 'Video'}" loading="lazy" onerror="${onerrorAttr}" />
       <div class="gallery-card__video-badge">
         <svg viewBox="0 0 24 24">
           <polygon points="6 3 20 12 6 21 6 3"></polygon>
