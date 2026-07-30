@@ -1557,7 +1557,26 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
 }
 
 @media (max-width: 768px) {
-  .carousel-nav { display: none; } /* Hide arrows on touch devices where swipe is natural */
+  .carousel-nav { 
+    display: flex !important;
+    width: 44px;
+    height: 44px;
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid var(--clr-gold);
+    color: var(--clr-gold);
+    z-index: 25;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
+  .carousel-nav.prev {
+    left: 6px;
+  }
+  .carousel-nav.next {
+    right: 6px;
+  }
+  .carousel-nav svg {
+    width: 22px;
+    height: 22px;
+  }
 }
 
 .home-cinema__playlist {
