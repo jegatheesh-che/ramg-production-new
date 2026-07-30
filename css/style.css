@@ -1374,10 +1374,17 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
   z-index: 4;
   cursor: pointer;
   display: none;
+  pointer-events: none; /* Default: don't block clicks */
 }
 
 .home-cinema__stage.is-initialized .home-cinema__click-capture {
   display: block;
+  pointer-events: auto; /* Enable only before video plays */
+}
+
+/* When video is actively playing, click-capture must NOT block the YouTube iframe */
+.home-cinema__stage.is-playing .home-cinema__click-capture {
+  pointer-events: none;
 }
 
 .home-cinema__cover {
@@ -1491,6 +1498,11 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
   height: 100%;
   z-index: 1;
   border: none;
+}
+
+/* When playing, lift the player above the click-capture so iframe controls work */
+.home-cinema__stage.is-playing .home-cinema__player {
+  z-index: 6;
 }
 
 /* Playlist Cards Container */
@@ -2669,10 +2681,10 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
 
 .lightbox-video-container iframe {
   position: absolute;
-  top: -55px;
+  top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% + 55px);
+  height: 100%;
   border: none;
 }
 

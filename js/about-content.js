@@ -75,7 +75,7 @@ function renderDynamicSections(sections) {
         
         <div class="hero__image-col reveal">
           <div class="hero__image-wrapper">
-            <img src="${sec.imageUrl || '/assets/images/ramg-prods.png'}" alt="${escapeHtml(sec.title || 'About RamG Production')}" class="hero__image" fetchpriority="high" />
+            <img src="${validImg(sec.imageUrl)}" alt="${escapeHtml(sec.title || 'About RamG Production')}" class="hero__image" fetchpriority="high" />
           </div>
         </div>
       `;
@@ -94,7 +94,7 @@ function renderDynamicSections(sections) {
 
       const imgColHtml = `
         <div class="editorial-image-wrapper">
-          <img src="${sec.imageUrl || '/assets/images/ramg-prods.png'}" alt="${escapeHtml(sec.title || 'RamG Production')}" loading="lazy" />
+          <img src="${validImg(sec.imageUrl)}" alt="${escapeHtml(sec.title || 'RamG Production')}" loading="lazy" />
         </div>
       `;
 
@@ -114,6 +114,14 @@ function formatParagraphs(text) {
   if (!text) return "";
   const parts = text.split("\n\n").filter(p => p.trim().length > 0);
   return parts.map(p => `<p style="margin-bottom: 16px; line-height: 1.6;">${escapeHtml(p.trim())}</p>`).join("");
+}
+
+// Validate and return a safe image URL (no broken leading-slash relative paths)
+function validImg(url) {
+  if (!url || url.trim() === '' || url.trim() === '/') {
+    return 'assets/images/ramg-prods.png';
+  }
+  return url;
 }
 
 // Escape HTML special chars safely
