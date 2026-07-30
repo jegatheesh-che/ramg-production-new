@@ -793,11 +793,31 @@ if (document.readyState === 'loading') {
   const cards = document.querySelectorAll('.simple-video-card');
   if (!cards.length) return;
 
+  // Store original HTML for resetting videos back to thumbnails
+  cards.forEach(card => {
+    const mediaWrap = card.querySelector('.home-cinema__card-media');
+    if (mediaWrap) {
+      card.dataset.originalHtml = mediaWrap.innerHTML;
+    }
+  });
+
   // Video logic
   cards.forEach((card, index) => {
     // Function to load iframe
     const playVideo = (isMuted = false) => {
       if (card.classList.contains('is-playing')) return;
+
+      // First, stop all other playing videos and reset them to thumbnails
+      cards.forEach(otherCard => {
+        if (otherCard !== card && otherCard.classList.contains('is-playing')) {
+          otherCard.classList.remove('is-playing');
+          const otherMediaWrap = otherCard.querySelector('.home-cinema__card-media');
+          if (otherMediaWrap && otherCard.dataset.originalHtml) {
+            otherMediaWrap.innerHTML = otherCard.dataset.originalHtml;
+          }
+        }
+      });
+
       const yid = card.getAttribute('data-youtube-id');
       const mediaWrap = card.querySelector('.home-cinema__card-media');
       
