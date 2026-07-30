@@ -576,6 +576,7 @@ window.initGalleryInteractions = function() {
       const img = card.querySelector('img');
       const rawCat = card.getAttribute('data-category') || 'Portfolio';
       const cat = rawCat.charAt(0).toUpperCase() + rawCat.slice(1);
+      const title = card.getAttribute('data-title') || (img ? img.alt : '') || 'RamG Production';
       const rawYoutubeId = card.getAttribute('data-youtube-id');
       const youtubeId = (function extractYt(input) {
         if (!input) return "";
@@ -595,13 +596,13 @@ window.initGalleryInteractions = function() {
         
         const playerDiv = document.getElementById('lightboxYoutubePlayer');
         if (playerDiv) {
-          playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&rel=0&playsinline=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%; border:0; z-index: 100;"></iframe>`;
+          playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&rel=0&playsinline=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>`;
         }
       } else {
         if (lightboxVideoContainer) lightboxVideoContainer.style.display = 'none';
         if (lightboxImg) {
           lightboxImg.style.display = 'block';
-          lightboxImg.src = img ? img.src : '';
+          lightboxImg.src = img ? img.src : (card.getAttribute('data-image-url') || '');
           lightboxImg.alt = title;
         }
       }

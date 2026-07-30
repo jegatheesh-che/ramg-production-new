@@ -89,9 +89,10 @@ function createGalleryCardDOM(item) {
     const cleanYtId = extractYoutubeId(item.youtubeId);
     card.setAttribute("data-youtube-id", cleanYtId);
     const thumbnailUrl = `https://img.youtube.com/vi/${cleanYtId}/maxresdefault.jpg`;
+    const fallbackThumb = `https://img.youtube.com/vi/${cleanYtId}/hqdefault.jpg`;
     
     card.innerHTML = `
-      <img src="${thumbnailUrl}" alt="${item.title || 'Video'}" loading="lazy" />
+      <img src="${thumbnailUrl}" alt="${item.title || 'Video'}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackThumb}';" />
       <div class="gallery-card__video-badge">
         <svg viewBox="0 0 24 24">
           <polygon points="6 3 20 12 6 21 6 3"></polygon>
@@ -101,7 +102,9 @@ function createGalleryCardDOM(item) {
     `;
   } else {
     // Image item
-    const optimizedUrl = getOptimizedCloudinaryUrl(item.cloudinaryUrl, 800);
+    const rawUrl = item.cloudinaryUrl || item.imageUrl || "";
+    const optimizedUrl = getOptimizedCloudinaryUrl(rawUrl, 800);
+    card.setAttribute("data-image-url", optimizedUrl);
     card.innerHTML = `
       <img src="${optimizedUrl}" alt="${item.title || 'Photo'}" loading="lazy" />
       <div class="gallery-card__expand">&#10530;</div>

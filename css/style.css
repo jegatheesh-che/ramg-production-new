@@ -2682,6 +2682,12 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
   overflow: hidden;
 }
 
+#lightboxYoutubePlayer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 .lightbox-video-container iframe {
   position: absolute;
   top: 0;
