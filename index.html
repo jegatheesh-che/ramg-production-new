@@ -8,6 +8,15 @@
   <meta name="keywords" content="RamG Production, Belgium wedding photographer, fine art wedding photography, wedding videographer Belgium, Brussels wedding photographer, destination wedding Europe, luxury wedding film" />
   <link rel="canonical" href="https://ramgproduction.com/" />
   
+  <!-- YouTube / Google DNS Preconnect for fast video startup -->
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link rel="preconnect" href="https://www.youtube-nocookie.com" />
+  <link rel="preconnect" href="https://i.ytimg.com" />
+  <link rel="preconnect" href="https://s.ytimg.com" />
+  <link rel="preconnect" href="https://googlevideo.com" />
+  <link rel="dns-prefetch" href="https://www.youtube.com" />
+  <link rel="dns-prefetch" href="https://i.ytimg.com" />
+
   <!-- Geo Tags for Local SEO & GEO -->
   <meta name="geo.region" content="BE" />
   <meta name="geo.placename" content="Belgium" />
@@ -532,9 +541,11 @@
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
     </svg>
   </button>
+  <!-- YouTube IFrame API loaded early (non-defer) for instant video startup on click -->
+  <script src="https://www.youtube.com/iframe_api" async></script>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
   <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script defer src="js/main.js?v=1.0.1"></script>
+  <script defer src="js/main.js?v=1.0.2"></script>
 </body>
 </html>

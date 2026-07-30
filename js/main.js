@@ -4,38 +4,29 @@
    ================================================ */
 
 
-// --- Dynamic YouTube Iframe API Loader (Global Scope) ---
+// --- YouTube Iframe API Readiness Handler (Global Scope) ---
+// NOTE: The YouTube IFrame API script is loaded via async <script> in the HTML.
+// This just queues callbacks and fires them when the API is ready.
 let ytAPIReady = false;
 const ytCallbacks = [];
 
 function loadYouTubeAPI(callback) {
   if (window.YT && window.YT.Player) {
+    // API already ready — call immediately
     if (callback) callback();
     return;
   }
-  
   if (callback) ytCallbacks.push(callback);
-
-  if (window.onYouTubeIframeAPIReady) return; // already loading
-
-  window.onYouTubeIframeAPIReady = function() {
-    ytAPIReady = true;
-    while (ytCallbacks.length > 0) {
-      const cb = ytCallbacks.shift();
-      try { cb(); } catch (e) { console.error(e); }
-    }
-  };
-
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  const firstScriptTag = document.getElementsByTagName('script')[0];
-  if (firstScriptTag && firstScriptTag.parentNode) {
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  }
 }
 
-// Preload YouTube Iframe API for instant video startup
-loadYouTubeAPI();
+// This global callback is invoked by the YouTube IFrame API script when it's loaded
+window.onYouTubeIframeAPIReady = function() {
+  ytAPIReady = true;
+  while (ytCallbacks.length > 0) {
+    const cb = ytCallbacks.shift();
+    try { cb(); } catch (e) { console.error(e); }
+  }
+};
 
 // --- Lenis smooth scroll (Mobile-optimized) ---
 let lenis = null;
