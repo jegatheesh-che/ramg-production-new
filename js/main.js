@@ -623,12 +623,14 @@ window.initGalleryInteractions = function() {
       updateLightboxContent(currentIndex);
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.cursor = 'auto';
     }
 
     function closeLightbox() {
       destroyLightboxPlayer();
       lightbox.classList.remove('active');
       document.body.style.overflow = '';
+      document.documentElement.style.cursor = 'none';
     }
 
     document.querySelectorAll('.gallery-card, .collage-item').forEach(card => {

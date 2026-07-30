@@ -2592,7 +2592,7 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
 .lightbox-modal {
   position: fixed;
   inset: 0;
-  z-index: 999999;
+  z-index: 9999999;
   background: rgba(10, 10, 8, 0.95);
   backdrop-filter: blur(24px);
   display: flex;
@@ -2606,6 +2606,11 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
 .lightbox-modal.active {
   opacity: 1;
   pointer-events: all;
+  cursor: default !important;
+}
+
+.lightbox-modal.active iframe {
+  cursor: auto !important;
 }
 
 .lightbox-close {
@@ -2616,8 +2621,9 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
   color: #ffffff;
   background: none;
   border: none;
-  cursor: pointer;
-  z-index: 10;
+  cursor: pointer !important;
+  z-index: 100000000 !important;
+  pointer-events: auto !important;
   transition: transform 0.3s, color 0.3s;
 }
 
@@ -2632,16 +2638,17 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
   transform: translateY(-50%);
   font-size: 3rem;
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   width: 54px;
   height: 54px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  z-index: 10;
+  cursor: pointer !important;
+  z-index: 100000000 !important;
+  pointer-events: auto !important;
   transition: background 0.3s, color 0.3s, transform 0.3s;
 }
 
