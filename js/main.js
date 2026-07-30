@@ -789,23 +789,35 @@ if (document.readyState === 'loading') {
 
 // ===============================================
 // CINEMA SHOWCASE (YOUTUBE INTERACTIVE PLAYER)
-// ===============================================
 (function initCinemaShowcase() {
   const cards = document.querySelectorAll('.simple-video-card');
   if (!cards.length) return;
 
-  // Video click to play logic
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
+  // Video logic
+  cards.forEach((card, index) => {
+    // Function to load iframe
+    const playVideo = (isMuted = false) => {
       if (card.classList.contains('is-playing')) return;
       const yid = card.getAttribute('data-youtube-id');
       const mediaWrap = card.querySelector('.home-cinema__card-media');
       
       if (yid && mediaWrap) {
         card.classList.add('is-playing');
-        mediaWrap.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${yid}?autoplay=1&mute=0&enablejsapi=1&rel=0&playsinline=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>`;
+        const muteParam = isMuted ? 1 : 0;
+        mediaWrap.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${yid}?autoplay=1&mute=${muteParam}&enablejsapi=1&rel=0&playsinline=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>`;
       }
-    });
+    };
+
+    // Auto-play the first video on mute when page loads
+    if (index === 0) {
+      // Small delay to ensure smooth page load before loading iframe
+      setTimeout(() => {
+        playVideo(true); // true = muted
+      }, 500);
+    }
+
+    // On manual click, play with sound
+    card.addEventListener('click', () => playVideo(false));
   });
 
   // Carousel Navigation and Drag to Scroll
