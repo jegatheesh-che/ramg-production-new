@@ -88,9 +88,15 @@ function createGalleryCardDOM(item) {
   if (item.mediaType === "video") {
     const cleanYtId = extractYoutubeId(item.youtubeId);
     card.setAttribute("data-youtube-id", cleanYtId);
+    const thumbnailUrl = `https://img.youtube.com/vi/${cleanYtId}/maxresdefault.jpg`;
     
     card.innerHTML = `
-      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${cleanYtId}?autoplay=1&mute=1&loop=1&playlist=${cleanYtId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" frameborder="0" allow="autoplay; encrypted-media" style="aspect-ratio: 16/9; pointer-events: none; display: block;" allowfullscreen></iframe>
+      <img src="${thumbnailUrl}" alt="${item.title || 'Video'}" loading="lazy" />
+      <div class="gallery-card__video-badge">
+        <svg viewBox="0 0 24 24">
+          <polygon points="6 3 20 12 6 21 6 3"></polygon>
+        </svg>
+      </div>
       <div class="gallery-card__expand">&#10530;</div>
     `;
   } else {
