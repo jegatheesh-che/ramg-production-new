@@ -3454,6 +3454,25 @@ em, .section-title em, .home-intro__title em, .home-about__content h2 em {
   color: #4a4742 !important;
 }
 
+[data-theme="light"] .filter-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #111113;
+}
+
+[data-theme="light"] .filter-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.25);
+  color: #000000;
+}
+
+[data-theme="light"] .filter-btn.active {
+  background: var(--clr-gold);
+  border-color: var(--clr-gold);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(149, 117, 49, 0.35);
+}
+
 [data-theme="light"] .theme-toggle-btn {
   background: #ffffff;
   color: #111113;
